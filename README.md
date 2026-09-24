@@ -5,7 +5,7 @@ A modern, highly interactive, and responsive luxury e-commerce web application b
 ---
 
 ## 📸 Preview
-![Maison Lumière Preview](Screenshot.png) ---
+![Maison Lumière Preview](screenshot.png) ---
 
 ## ✨ Key Features
 
