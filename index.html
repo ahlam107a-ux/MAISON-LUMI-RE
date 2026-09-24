@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAISON LUMIÈRE — Luxury Handbags</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              topbar: '#3d2b1f',
+              bg: '#e8e0d5',
+              surface: '#f5f0eb',
+              card: '#efe8e0',
+              accent: '#4a3325',
+              accentHover: '#322116',
+              text: '#2b1e17',
+              muted: '#7a6b5d',
+              border: '#d2c5b4',
+              gold: '#c29b38'
+            }
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #e8e0d5; color: #2b1e17; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-serif-title { font-family: 'Cormorant Garamond', serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #e8e0d5; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #d2c5b4; border-radius: 4px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between custom-scrollbar selection:bg-brand-accent selection:text-white">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-brand-topbar text-[#e8e0d5] text-xs font-medium py-2 text-center tracking-wider px-4 flex justify-between items-center">
+    <div class="hidden sm:block opacity-0">Placeholder</div>
+    <p>Enjoy 15% Off Your First Order — Use code <span class="text-amber-300 font-semibold">WELCOME15</span> | Free Shipping on Orders $200+</p>
+    <div class="hidden sm:flex items-center space-x-3 text-xs opacity-80">
+      <span><i class="fas fa-phone mr-1"></i> Support</span>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-40 bg-brand-surface/90 backdrop-filter backdrop-blur-md border-b border-brand-border transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="#" class="flex flex-col group">
+        <span class="font-serif-title text-2xl sm:text-3xl font-bold tracking-widest text-brand-text group-hover:text-brand-accent transition-colors">MAISON LUMIÈRE</span>
+        <span class="text-[9px] tracking-[0.3em] uppercase text-brand-muted font-medium -mt-1">Handcrafted Luxury</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-brand-text">
+        <a href="#hero" class="hover:text-brand-accent transition-colors">Home</a>
+        <a href="#collection" class="hover:text-brand-accent transition-colors">Collections</a>
+        <a href="#assistant" class="hover:text-brand-accent transition-colors">Style Assistant</a>
+        <a href="#offers" class="hover:text-brand-accent transition-colors">Special Offers</a>
+      </nav>
+
+      <!-- Action Icons -->
+      <div class="flex items-center space-x-4 sm:space-x-5">
+        <button onclick="toggleModal('searchModal')" class="text-brand-text hover:text-brand-accent transition-colors p-2" title="Search">
+          <i class="fas fa-search text-lg"></i>
+        </button>
+        <button onclick="toggleModal('authModal')" class="text-brand-text hover:text-brand-accent transition-colors p-2" title="Account">
+          <i class="far fa-user text-lg"></i>
+        </button>
+        <button onclick="toggleModal('wishlistModal')" class="text-brand-text hover:text-brand-accent transition-colors p-2 relative" title="Wishlist">
+          <i class="far fa-heart text-lg"></i>
+          <span id="wishlistCount" class="absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+        </button>
+        <button onclick="toggleDrawer('cartDrawer')" class="text-brand-text hover:text-brand-accent transition-colors p-2 relative" title="Cart">
+          <i class="fas fa-shopping-bag text-lg"></i>
+          <span id="cartCount" class="absolute -top-1 -right-1 bg-brand-accent text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-brand-accent text-white px-5 py-3 rounded-lg shadow-xl flex items-center space-x-3 border border-amber-900/20">
+    <i id="toastIcon" class="fas fa-check-circle text-amber-300"></i>
+    <span id="toastMessage" class="text-sm font-medium">Action completed successfully</span>
+  </div>
+
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <section id="hero" class="relative py-12 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left Content -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center space-x-2 bg-brand-card border border-brand-border px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-brand-muted">
+            <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+            <span>2026 Exclusive Collection</span>
+          </div>
+          <h1 class="font-serif-title text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-text leading-tight">
+            Timeless Craft, <br><span class="italic font-normal">Modern Luxury</span>
+          </h1>
+          <p class="text-brand-muted text-base sm:text-lg leading-relaxed">
+            Discover our curated collection of handcrafted bags—from classic totes to sleek crossbodies, designed for the modern connoisseur. Quality leather, timeless style, crafted to last.
+          </p>
+
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a href="#collection" class="bg-brand-accent hover:bg-brand-accentHover text-white font-medium px-8 py-3.5 rounded-md transition-all shadow-md flex items-center space-x-2">
+              <span>Explore Collection</span>
+              <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+            <a href="#assistant" class="bg-brand-card hover:bg-brand-border text-brand-text font-medium px-6 py-3.5 rounded-md border border-brand-border transition-all flex items-center space-x-2">
+              <i class="fas fa-sparkles text-brand-accent"></i>
+              <span>Find Your Style</span>
+            </a>
+          </div>
+
+          <!-- Feature badges -->
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-brand-border/60 text-center sm:text-left">
+            <div>
+              <div class="font-serif-title text-2xl font-bold text-brand-text">28+</div>
+              <div class="text-xs text-brand-muted">Artisanal Models</div>
+            </div>
+            <div>
+              <div class="font-serif-title text-2xl font-bold text-brand-text">100%</div>
+              <div class="text-xs text-brand-muted">Genuine Leather</div>
+            </div>
+            <div>
+              <div class="font-serif-title text-2xl font-bold text-brand-text">4.9★</div>
+              <div class="text-xs text-brand-muted">Client Rating</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Image Showcase -->
+        <div class="lg:col-span-6">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            <div class="absolute -inset-2 bg-brand-border rounded-2xl blur-sm opacity-50"></div>
+            <div class="relative bg-brand-card rounded-2xl overflow-hidden border border-brand-border shadow-2xl">
+              <img id="heroImage" src="1.jpg" onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80'" alt="Featured Bag" class="w-full h-[420px] sm:h-[500px] object-cover hover:scale-105 transition-transform duration-700">
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-brand-topbar/80 via-brand-topbar/30 to-transparent p-6 text-white flex justify-between items-end">
+                <div>
+                  <span class="text-xs uppercase tracking-widest text-amber-200">Spotlight Design</span>
+                  <h3 class="font-serif-title text-2xl font-bold">The Royal Tote #1</h3>
+                  <p class="text-sm text-gray-200">$1,250 USD</p>
+                </div>
+                <button onclick="addToCart(1)" class="bg-brand-surface text-brand-text hover:bg-white p-3 rounded-full shadow-lg transition-colors">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Main Collection Section -->
+    <section id="collection" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-brand-border/60">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-muted">The Complete Catalog</span>
+          <h2 class="font-serif-title text-3xl sm:text-4xl font-bold text-brand-text">Explore All 28 Designs</h2>
+        </div>
+        
+        <!-- Filter Category Tabs -->
+        <div class="flex flex-wrap gap-2 text-sm">
+          <button onclick="filterCategory('All')" class="filter-btn active-filter bg-brand-accent text-white px-4 py-2 rounded-md font-medium transition-colors">All (28)</button>
+          <button onclick="filterCategory('Tote')" class="filter-btn bg-brand-card hover:bg-brand-border text-brand-text px-4 py-2 rounded-md font-medium border border-brand-border transition-colors">Tote</button>
+          <button onclick="filterCategory('Crossbody')" class="filter-btn bg-brand-card hover:bg-brand-border text-brand-text px-4 py-2 rounded-md font-medium border border-brand-border transition-colors">Crossbody</button>
+          <button onclick="filterCategory('Shoulder')" class="filter-btn bg-brand-card hover:bg-brand-border text-brand-text px-4 py-2 rounded-md font-medium border border-brand-border transition-colors">Shoulder</button>
+          <button onclick="filterCategory('Clutch')" class="filter-btn bg-brand-card hover:bg-brand-border text-brand-text px-4 py-2 rounded-md font-medium border border-brand-border transition-colors">Clutch</button>
+        </div>
+      </div>
+
+      <!-- Sorting Control -->
+      <div class="flex justify-between items-center mb-6 text-sm text-brand-muted">
+        <span id="productCountText">Showing all 28 luxury items</span>
+        <div class="flex items-center space-x-2">
+          <label for="sortSelect">Sort by:</label>
+          <select id="sortSelect" onchange="sortProducts()" class="bg-brand-card border border-brand-border rounded-md px-3 py-1.5 text-brand-text focus:outline-none focus:border-brand-accent">
+            <option value="default">Default</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Grid (28 Products) -->
+      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+        <!-- Javascript renders 28 items here -->
+      </div>
+    </section>
+
+    <!-- Interactive Style Assistant Section -->
+    <section id="assistant" class="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-10 shadow-lg relative overflow-hidden">
+        <div class="text-center max-w-xl mx-auto mb-8">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-muted">Personalized Recommendation</span>
+          <h2 class="font-serif-title text-3xl font-bold text-brand-text mt-1">Discover Your Ideal Handbag</h2>
+          <p class="text-sm text-brand-muted mt-2">Answer two quick questions to find the handbag crafted for your lifestyle.</p>
+        </div>
+
+        <div id="quizStep1" class="space-y-4">
+          <h3 class="text-sm font-semibold text-brand-text text-center">1. What is your primary occasion for this bag?</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <button onclick="selectQuiz(1, 'Daily & Work')" class="p-4 bg-brand-surface hover:bg-brand-border border border-brand-border rounded-lg text-center transition-all">
+              <i class="fas fa-briefcase text-2xl text-brand-accent mb-2"></i>
+              <div class="font-medium text-sm">Daily & Work</div>
+            </button>
+            <button onclick="selectQuiz(1, 'Parties & Events')" class="p-4 bg-brand-surface hover:bg-brand-border border border-brand-border rounded-lg text-center transition-all">
+              <i class="fas fa-glass-cheers text-2xl text-brand-accent mb-2"></i>
+              <div class="font-medium text-sm">Parties & Events</div>
+            </button>
+            <button onclick="selectQuiz(1, 'Travel & Mobility')" class="p-4 bg-brand-surface hover:bg-brand-border border border-brand-border rounded-lg text-center transition-all">
+              <i class="fas fa-plane-departure text-2xl text-brand-accent mb-2"></i>
+              <div class="font-medium text-sm">Travel & Mobility</div>
+            </button>
+          </div>
+        </div>
+
+        <div id="quizStep2" class="space-y-4 hidden">
+          <h3 class="text-sm font-semibold text-brand-text text-center">2. What size profile do you prefer?</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <button onclick="finishQuiz('Compact')" class="p-4 bg-brand-surface hover:bg-brand-border border border-brand-border rounded-lg text-center transition-all">
+              <i class="fas fa-compress-alt text-2xl text-brand-accent mb-2"></i>
+              <div class="font-medium text-sm">Compact & Sleek</div>
+            </button>
+            <button onclick="finishQuiz('Medium')" class="p-4 bg-brand-surface hover:bg-brand-border border border-brand-border rounded-lg text-center transition-all">
+              <i class="fas fa-box text-2xl text-brand-accent mb-2"></i>
+              <div class="font-medium text-sm">Medium Standard</div>
+            </button>
+            <button onclick="finishQuiz('Spacious')" class="p-4 bg-brand-surface hover:bg-brand-border border border-brand-border rounded-lg text-center transition-all">
+              <i class="fas fa-expand-alt text-2xl text-brand-accent mb-2"></i>
+              <div class="font-medium text-sm">Spacious & Roomy</div>
+            </button>
+          </div>
+        </div>
+
+        <div id="quizResult" class="hidden text-center space-y-4 py-4">
+          <span class="text-xs font-bold uppercase text-brand-muted tracking-widest">Recommended For You</span>
+          <div id="quizProductCard" class="max-w-sm mx-auto bg-brand-surface border border-brand-border rounded-xl p-4 shadow-md">
+            <!-- Dynamic Result Card -->
+          </div>
+          <button onclick="resetQuiz()" class="text-xs text-brand-muted underline hover:text-brand-text pt-2">Reset Quiz</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Special Offer Section -->
+    <section id="offers" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-brand-border/60">
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-5 relative">
+          <img src="12.jpg" onerror="this.src='https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=80'" alt="Special Offer" class="rounded-xl w-full h-[320px] object-cover shadow-md border border-brand-border">
+          <span class="absolute top-3 left-3 bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Limited Offer</span>
+        </div>
+        <div class="lg:col-span-7 space-y-4">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-muted">Exclusive Gift Set Package</span>
+          <h2 class="font-serif-title text-3xl sm:text-4xl font-bold text-brand-text">Diamond Heritage Set — 25% Off</h2>
+          <p class="text-brand-muted text-sm sm:text-base">
+            Receive our flagship leather handbag bundled with a premium silk scarf protection case and complimentary worldwide express delivery.
+          </p>
+
+          <!-- Dynamic Countdown Timer -->
+          <div class="flex space-x-4 pt-2 text-center">
+            <div class="bg-brand-surface border border-brand-border p-3 rounded-lg w-20">
+              <span id="timerHours" class="font-serif-title text-2xl font-bold text-brand-text">08</span>
+              <span class="block text-[10px] text-brand-muted uppercase">Hours</span>
+            </div>
+            <div class="bg-brand-surface border border-brand-border p-3 rounded-lg w-20">
+              <span id="timerMinutes" class="font-serif-title text-2xl font-bold text-brand-text">41</span>
+              <span class="block text-[10px] text-brand-muted uppercase">Mins</span>
+            </div>
+            <div class="bg-brand-surface border border-brand-border p-3 rounded-lg w-20">
+              <span id="timerSeconds" class="font-serif-title text-2xl font-bold text-brand-text">20</span>
+              <span class="block text-[10px] text-brand-muted uppercase">Secs</span>
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <button onclick="addToCart(12)" class="bg-brand-accent hover:bg-brand-accentHover text-white font-medium px-8 py-3.5 rounded-md transition-colors shadow-md">
+              Claim Offer Now — $830
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-brand-topbar text-[#e8e0d5] pt-12 pb-8 border-t border-brand-accent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-sm">
+      <div class="space-y-3">
+        <h3 class="font-serif-title text-2xl font-bold tracking-widest text-white">MAISON LUMIÈRE</h3>
+        <p class="text-xs text-[#d2c5b4]">Crafting timeless leather goods for the modern traveler. Quality, heritage, and distinction in every stitch.</p>
+        <div class="flex space-x-3 text-base text-[#d2c5b4]">
+          <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-pinterest"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="font-semibold text-white mb-3">Quick Links</h4>
+        <ul class="space-y-2 text-xs text-[#d2c5b4]">
+          <li><a href="#hero" class="hover:text-white">Home</a></li>
+          <li><a href="#collection" class="hover:text-white">New Arrivals (28)</a></li>
+          <li><a href="#assistant" class="hover:text-white">Style Quiz</a></li>
+          <li><a href="#offers" class="hover:text-white">Special Promotions</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-white mb-3">Customer Care</h4>
+        <ul class="space-y-2 text-xs text-[#d2c5b4]">
+          <li><a href="#" class="hover:text-white">Shipping & Returns</a></li>
+          <li><a href="#" class="hover:text-white">Leather Care Guide</a></li>
+          <li><a href="#" class="hover:text-white">2-Year Warranty</a></li>
+          <li><a href="#" class="hover:text-white">Track Order</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-white mb-3">Newsletter</h4>
+        <p class="text-xs text-[#d2c5b4] mb-3">Subscribe to receive private invitations and seasonal collection previews.</p>
+        <form onsubmit="event.preventDefault(); showToast('Subscribed to newsletter!');" class="flex gap-2">
+          <input type="email" placeholder="Your email address" required class="bg-[#2b1e17] border border-[#7a6b5d] text-white text-xs rounded px-3 py-2 w-full focus:outline-none">
+          <button type="submit" class="bg-brand-accent px-4 py-2 text-xs rounded text-white font-medium hover:bg-amber-900 transition-colors">Join</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#4a3325] pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-[#7a6b5d]">
+      <p>© 2026 MAISON LUMIÈRE. All rights reserved.</p>
+      <div class="flex space-x-4 mt-2 sm:mt-0">
+        <a href="#" class="hover:text-[#d2c5b4]">Privacy Policy</a>
+        <a href="#" class="hover:text-[#d2c5b4]">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUTH MODAL -->
+  <div id="authModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+    <div class="bg-brand-surface border border-brand-border rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
+      <button onclick="toggleModal('authModal')" class="absolute top-4 right-4 text-brand-muted hover:text-brand-text">
+        <i class="fas fa-times text-lg"></i>
+      </button>
+
+      <div class="flex border-b border-brand-border mb-6">
+        <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 font-serif-title text-xl font-bold border-b-2 border-brand-accent text-brand-text">Log In</button>
+        <button id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 font-serif-title text-xl font-bold border-b-2 border-transparent text-brand-muted hover:text-brand-text">Register</button>
+      </div>
+
+      <form id="formLogin" onsubmit="event.preventDefault(); handleAuth('Login successful!');" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-brand-text mb-1">Email Address</label>
+          <input type="email" required placeholder="name@example.com" class="w-full bg-brand-card border border-brand-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-brand-accent">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-brand-text mb-1">Password</label>
+          <input type="password" required placeholder="••••••••" class="w-full bg-brand-card border border-brand-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-brand-accent">
+        </div>
+        <div class="flex justify-between items-center text-xs">
+          <label class="flex items-center text-brand-muted"><input type="checkbox" class="mr-1.5"> Remember me</label>
+          <a href="#" class="text-brand-accent hover:underline">Forgot password?</a>
+        </div>
+        <button type="submit" class="w-full bg-brand-accent text-white py-2.5 rounded-md font-medium text-sm hover:bg-brand-accentHover transition-colors">Sign In</button>
+      </form>
+
+      <form id="formRegister" onsubmit="event.preventDefault(); handleAuth('Account created successfully!');" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-semibold text-brand-text mb-1">Full Name</label>
+          <input type="text" required placeholder="Sarah Jenkins" class="w-full bg-brand-card border border-brand-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-brand-accent">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-brand-text mb-1">Email Address</label>
+          <input type="email" required placeholder="name@example.com" class="w-full bg-brand-card border border-brand-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-brand-accent">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-brand-text mb-1">Password</label>
+          <input type="password" required placeholder="••••••••" class="w-full bg-brand-card border border-brand-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-brand-accent">
+        </div>
+        <button type="submit" class="w-full bg-brand-accent text-white py-2.5 rounded-md font-medium text-sm hover:bg-brand-accentHover transition-colors">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- WISHLIST MODAL -->
+  <div id="wishlistModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+    <div class="bg-brand-surface border border-brand-border rounded-2xl w-full max-w-2xl p-6 relative shadow-2xl max-h-[80vh] flex flex-col">
+      <div class="flex justify-between items-center border-b border-brand-border pb-4">
+        <h3 class="font-serif-title text-2xl font-bold text-brand-text"><i class="far fa-heart text-brand-accent mr-2"></i> Your Wishlist</h3>
+        <button onclick="toggleModal('wishlistModal')" class="text-brand-muted hover:text-brand-text"><i class="fas fa-times text-lg"></i></button>
+      </div>
+      <div id="wishlistContainer" class="flex-grow overflow-y-auto py-4 space-y-3 custom-scrollbar"></div>
+    </div>
+  </div>
+
+  <!-- SEARCH MODAL -->
+  <div id="searchModal" class="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20 p-4 hidden backdrop-blur-sm">
+    <div class="bg-brand-surface border border-brand-border rounded-xl w-full max-w-xl p-4 relative shadow-2xl">
+      <div class="flex items-center space-x-3 bg-brand-card border border-brand-border rounded-lg px-3 py-2">
+        <i class="fas fa-search text-brand-muted"></i>
+        <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search from all 28 bags by name..." class="bg-transparent w-full text-sm text-brand-text focus:outline-none">
+        <button onclick="toggleModal('searchModal')" class="text-brand-muted text-xs hover:text-brand-text">ESC</button>
+      </div>
+      <div id="searchResults" class="mt-4 max-h-60 overflow-y-auto space-y-2 custom-scrollbar"></div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none">
+    <div id="cartOverlay" onclick="toggleDrawer('cartDrawer')" class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 pointer-events-auto hidden"></div>
+    <div id="cartContent" class="absolute top-0 right-0 h-full w-full max-w-md bg-brand-surface border-l border-brand-border shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
+      
+      <div class="p-5 border-b border-brand-border flex justify-between items-center bg-brand-card">
+        <h3 class="font-serif-title text-2xl font-bold text-brand-text"><i class="fas fa-shopping-bag mr-2 text-brand-accent"></i> Shopping Bag</h3>
+        <button onclick="toggleDrawer('cartDrawer')" class="text-brand-muted hover:text-brand-text"><i class="fas fa-times text-lg"></i></button>
+      </div>
+
+      <div id="cartItemsContainer" class="flex-grow overflow-y-auto p-5 space-y-4 custom-scrollbar"></div>
+
+      <div class="p-5 border-t border-brand-border bg-brand-card space-y-3">
+        <div class="flex justify-between text-sm">
+          <span class="text-brand-muted">Shipping</span>
+          <span class="text-emerald-700 font-semibold">FREE</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-brand-text pt-2 border-t border-brand-border/60">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+        <button onclick="checkout()" class="w-full bg-brand-accent text-white py-3 rounded-md font-medium hover:bg-brand-accentHover transition-colors shadow-md">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    const rawTitles = [
+      "Royal Tote", "Majestic Amber", "Serenade White", "Imperial Black", "Eternal Romance",
+      "Luxe Essential", "Chrono Gold", "Opulent Velvet", "Sovereign Tan", "Prestige Cross",
+      "Vintage Classic", "Velvet Night", "Celeste Ivory", "Urban Carry", "Monarch Elegance",
+      "Duchess Quilted", "Aura Satchel", "Noble Heritage", "Gilded Horizon", "Elysian Bloom",
+      "Prima Mini", "Starlight Clutch", "Velour Promenade", "Empress Gold", "Sienna Daily",
+      "Aria Crossbody", "Regal Structured", "Signature Luxe"
+    ];
+
+    const categories = ["Tote", "Shoulder", "Crossbody", "Clutch"];
+
+    const products = Array.from({ length: 28 }, (_, index) => {
+      const id = index + 1;
+      const cat = categories[index % categories.length];
+      const basePrice = 450 + (index * 45) % 1100;
+      return {
+        id: id,
+        name: `The ${rawTitles[index % rawTitles.length]} #${id}`,
+        category: cat,
+        price: basePrice,
+        rating: (4.5 + (index % 5) * 0.1).toFixed(1),
+        image: `${id}.jpg`,
+        fallbackImg: `https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80`
+      };
+    });
+
+    let cart = [];
+    let wishlist = [];
+    let activeFilter = 'All';
+
+    // Live Countdown Timer logic
+    let totalSeconds = 8 * 3600 + 41 * 60 + 20; // 08:41:20
+    function startCountdown() {
+      setInterval(() => {
+        if (totalSeconds <= 0) {
+          totalSeconds = 24 * 3600; // Reset
+        }
+        totalSeconds--;
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+
+        document.getElementById('timerHours').innerText = String(h).padStart(2, '0');
+        document.getElementById('timerMinutes').innerText = String(m).padStart(2, '0');
+        document.getElementById('timerSeconds').innerText = String(s).padStart(2, '0');
+      }, 1000);
+    }
+
+    function renderProducts(itemsToRender = products) {
+      const container = document.getElementById('productsGrid');
+      document.getElementById('productCountText').innerText = `Showing ${itemsToRender.length} of 28 luxury items`;
+
+      if (itemsToRender.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-brand-muted">No handbags found matching this criteria.</div>`;
+        return;
+      }
+
+      container.innerHTML = itemsToRender.map(p => {
+        const isWishlisted = wishlist.includes(p.id);
+        return `
+          <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col justify-between">
+            <div class="relative overflow-hidden aspect-square bg-brand-surface">
+              <img src="${p.image}" onerror="this.onerror=null; this.src='${p.fallbackImg}'" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              
+              <button onclick="toggleWishlist(${p.id})" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-brand-text hover:text-red-600 transition-colors shadow">
+                <i class="${isWishlisted ? 'fas fa-heart text-red-600' : 'far fa-heart'} text-base"></i>
+              </button>
+
+              <span class="absolute top-3 left-3 bg-brand-surface/90 text-brand-text text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded border border-brand-border">
+                ${p.category}
+              </span>
+            </div>
+
+            <div class="p-4 space-y-2 flex-grow flex flex-col justify-between">
+              <div>
+                <div class="flex items-center space-x-1 text-xs text-amber-600 mb-1">
+                  <i class="fas fa-star"></i>
+                  <span class="font-semibold">${p.rating}</span>
+                </div>
+                <h3 class="font-serif-title text-xl font-bold text-brand-text leading-tight">${p.name}</h3>
+              </div>
+
+              <div class="pt-3 border-t border-brand-border/60 flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-brand-muted block">Price</span>
+                  <span class="font-bold text-brand-text">$${p.price.toLocaleString()}</span>
+                </div>
+                <button onclick="addToCart(${p.id})" class="bg-brand-accent hover:bg-brand-accentHover text-white px-3.5 py-2 rounded text-xs font-medium transition-colors flex items-center space-x-1">
+                  <i class="fas fa-plus text-[10px]"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterCategory(cat) {
+      activeFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.innerText.includes(cat)) {
+          btn.className = "filter-btn active-filter bg-brand-accent text-white px-4 py-2 rounded-md font-medium transition-colors";
+        } else {
+          btn.className = "filter-btn bg-brand-card hover:bg-brand-border text-brand-text px-4 py-2 rounded-md font-medium border border-brand-border transition-colors";
+        }
+      });
+
+      const filtered = cat === 'All' ? products : products.filter(p => p.category === cat);
+      renderProducts(filtered);
+    }
+
+    function sortProducts() {
+      const val = document.getElementById('sortSelect').value;
+      let currentList = activeFilter === 'All' ? [...products] : products.filter(p => p.category === activeFilter);
+
+      if (val === 'price-low') currentList.sort((a,b) => a.price - b.price);
+      if (val === 'price-high') currentList.sort((a,b) => b.price - a.price);
+      if (val === 'rating') currentList.sort((a,b) => b.rating - a.rating);
+
+      renderProducts(currentList);
+    }
+
+    function addToCart(productId) {
+      const prod = products.find(p => p.id === productId);
+      const existing = cart.find(item => item.id === productId);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...prod, qty: 1 });
+      }
+      updateCartUI();
+      showToast(`Added ${prod.name} to cart`);
+    }
+
+    function updateCartQty(id, change) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += change;
+        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((acc, i) => acc + i.qty, 0);
+      document.getElementById('cartCount').innerText = totalCount;
+
+      const container = document.getElementById('cartItemsContainer');
+      if (cart.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-brand-muted"><i class="fas fa-shopping-bag text-3xl mb-3 block opacity-40"></i>Your bag is currently empty.</div>`;
+        document.getElementById('cartSubtotal').innerText = "$0.00";
+        return;
+      }
+
+      let subtotal = 0;
+      container.innerHTML = cart.map(item => {
+        subtotal += item.price * item.qty;
+        return `
+          <div class="flex items-center space-x-4 bg-brand-card border border-brand-border p-3 rounded-lg">
+            <img src="${item.image}" onerror="this.onerror=null; this.src='${item.fallbackImg}'" class="w-16 h-16 object-cover rounded-md border">
+            <div class="flex-grow">
+              <h4 class="font-serif-title text-base font-bold text-brand-text leading-tight">${item.name}</h4>
+              <span class="text-xs text-brand-muted">$${item.price.toLocaleString()}</span>
+              <div class="flex items-center space-x-2 mt-2">
+                <button onclick="updateCartQty(${item.id}, -1)" class="w-6 h-6 rounded bg-brand-surface border text-xs text-brand-text font-bold">-</button>
+                <span class="text-xs font-bold text-brand-text">${item.qty}</span>
+                <button onclick="updateCartQty(${item.id}, 1)" class="w-6 h-6 rounded bg-brand-surface border text-xs text-brand-text font-bold">+</button>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="font-bold text-sm text-brand-text">$${(item.price * item.qty).toLocaleString()}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cartSubtotal').innerText = `$${subtotal.toLocaleString()}`;
+    }
+
+    function toggleWishlist(id) {
+      if (wishlist.includes(id)) {
+        wishlist = wishlist.filter(item => item !== id);
+        showToast(`Removed from wishlist`);
+      } else {
+        wishlist.push(id);
+        showToast(`Saved to wishlist`);
+      }
+      document.getElementById('wishlistCount').innerText = wishlist.length;
+      renderProducts();
+      renderWishlistUI();
+    }
+
+    function renderWishlistUI() {
+      const container = document.getElementById('wishlistContainer');
+      if (wishlist.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-brand-muted">No saved items in your wishlist.</div>`;
+        return;
+      }
+
+      container.innerHTML = wishlist.map(id => {
+        const item = products.find(p => p.id === id);
+        return `
+          <div class="flex items-center justify-between bg-brand-card border border-brand-border p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <img src="${item.image}" onerror="this.onerror=null; this.src='${item.fallbackImg}'" class="w-14 h-14 object-cover rounded-md border">
+              <div>
+                <h4 class="font-serif-title font-bold text-brand-text text-base">${item.name}</h4>
+                <span class="text-xs text-brand-muted">$${item.price.toLocaleString()}</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="addToCart(${item.id})" class="bg-brand-accent text-white text-xs px-3 py-1.5 rounded hover:bg-brand-accentHover">Add to Bag</button>
+              <button onclick="toggleWishlist(${item.id})" class="text-brand-muted hover:text-red-600 p-2"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleModal(id) {
+      document.getElementById(id).classList.toggle('hidden');
+    }
+
+    function toggleDrawer(id) {
+      const overlay = document.getElementById('cartOverlay');
+      const content = document.getElementById('cartContent');
+      if (overlay.classList.contains('hidden')) {
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+          overlay.classList.remove('opacity-0');
+          content.classList.remove('translate-x-full');
+        }, 10);
+      } else {
+        overlay.classList.add('opacity-0');
+        content.classList.add('translate-x-full');
+        setTimeout(() => {
+          overlay.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById('formLogin');
+      const registerForm = document.getElementById('formRegister');
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        tabLogin.className = "flex-1 py-2 font-serif-title text-xl font-bold border-b-2 border-brand-accent text-brand-text";
+        tabRegister.className = "flex-1 py-2 font-serif-title text-xl font-bold border-b-2 border-transparent text-brand-muted hover:text-brand-text";
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        tabRegister.className = "flex-1 py-2 font-serif-title text-xl font-bold border-b-2 border-brand-accent text-brand-text";
+        tabLogin.className = "flex-1 py-2 font-serif-title text-xl font-bold border-b-2 border-transparent text-brand-muted hover:text-brand-text";
+      }
+    }
+
+    function handleAuth(msg) {
+      toggleModal('authModal');
+      showToast(msg);
+    }
+
+    function handleSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const container = document.getElementById('searchResults');
+
+      if (!query.trim()) {
+        container.innerHTML = '';
+        return;
+      }
+
+      const matches = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+      if (matches.length === 0) {
+        container.innerHTML = `<div class="text-xs text-brand-muted p-2 text-center">No matching bags found</div>`;
+        return;
+      }
+
+      container.innerHTML = matches.map(p => `
+        <div onclick="addToCart(${p.id}); toggleModal('searchModal');" class="flex items-center space-x-3 p-2 bg-brand-surface hover:bg-brand-border rounded cursor-pointer transition-colors">
+          <img src="${p.image}" onerror="this.onerror=null; this.src='${p.fallbackImg}'" class="w-10 h-10 object-cover rounded border">
+          <div class="flex-grow">
+            <div class="text-sm font-semibold text-brand-text">${p.name}</div>
+            <div class="text-xs text-brand-muted">$${p.price.toLocaleString()} • ${p.category}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectQuiz(step, val) {
+      document.getElementById('quizStep1').classList.add('hidden');
+      document.getElementById('quizStep2').classList.remove('hidden');
+    }
+
+    function finishQuiz(size) {
+      document.getElementById('quizStep2').classList.add('hidden');
+      document.getElementById('quizResult').classList.remove('hidden');
+
+      const recommended = products[Math.floor(Math.random() * products.length)];
+      document.getElementById('quizProductCard').innerHTML = `
+        <div class="aspect-square w-full rounded-lg overflow-hidden mb-3 border border-brand-border bg-brand-card">
+          <img src="${recommended.image}" onerror="this.onerror=null; this.src='${recommended.fallbackImg}'" class="w-full h-full object-cover">
+        </div>
+        <h4 class="font-serif-title text-xl font-bold text-brand-text">${recommended.name}</h4>
+        <p class="text-xs text-brand-muted mb-3 font-semibold">$${recommended.price.toLocaleString()}</p>
+        <button onclick="addToCart(${recommended.id})" class="w-full bg-brand-accent text-white text-xs py-2.5 rounded-md font-medium hover:bg-brand-accentHover transition-colors">Add Recommended Bag</button>
+      `;
+    }
+
+    function resetQuiz() {
+      document.getElementById('quizResult').classList.add('hidden');
+      document.getElementById('quizStep1').classList.remove('hidden');
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        showToast("Your cart is empty!");
+        return;
+      }
+      cart = [];
+      updateCartUI();
+      toggleDrawer('cartDrawer');
+      showToast("Order placed successfully! Thank you.");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Startup
+    renderProducts();
+    startCountdown();
+  </script>
+</body>
+</html>
